@@ -7,11 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     // adatbázis neve
     private static final String DATABASE_NAME = "GamfTODO";
     // tasks tábla neve
@@ -19,6 +21,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // tasks tábla oszlopai
     private static final String KEY_ID = "id";
     private static final String KEY_TASKNAME = "taskName";
+    private static final String KEY_TASKDATE = "taskDate";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,7 +32,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_TASKS + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + KEY_TASKNAME + " TEXT)";
+                + KEY_TASKNAME + " TEXT, "
+                + KEY_TASKDATE + " INTEGER)";
         db.execSQL(sql);
     }
 
@@ -45,9 +49,22 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_TASKNAME, task.getTaskName());
+        values.put(KEY_TASKDATE, convertDateToMillisecs(task.getDate()));
 
         db.insert(TABLE_TASKS, null, values);
         db.close();
+    }
+
+    public Date convertMillisecsToDate(long milli){
+        Date d = new Date(milli);
+
+        return d;
+    }
+
+    public long convertDateToMillisecs(Date d){
+        long milli = d.getTime();
+
+        return milli;
     }
 
     // egy listával tér vissza, melyben az összes feladat megtalálható
@@ -64,6 +81,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 Task task = new Task();
                 task.setId(cursor.getInt(0));
                 task.setTaskName(cursor.getString(1));
+                task.setDate(convertMillisecsToDate(cursor.getLong(2)));
                 taskList.add(task);
             } while (cursor.moveToNext());
         }

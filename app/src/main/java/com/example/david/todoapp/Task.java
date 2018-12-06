@@ -1,8 +1,11 @@
 package com.example.david.todoapp;
 
+import java.util.Date;
+
 public class Task {
     private String taskName;
     private int id;
+    private Date date;
 
     public Task(){
         this.taskName = null;
@@ -28,4 +31,10 @@ public class Task {
     public void setTaskName(String taskName){
         this.taskName = taskName;
     }
+
+    public Date getDate() { return date; }
+
+    public void setDate(int year, int month, int day) { this.date = new Date(year-1900, month, day); }
+
+    public void setDate(Date d) { this.date = d; }
 }

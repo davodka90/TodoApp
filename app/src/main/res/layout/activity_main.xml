@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
@@ -30,13 +31,71 @@
         android:layout_marginTop="0dp"
         android:layout_marginRight="6dp"
         android:onClick="addTaskNow"
-        android:text="Kész"></Button>
+        android:text="Hozzáad"></Button>
 
-    <ListView
-        android:id="@+id/listView1"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/button1"
+        android:isScrollContainer="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button1">
-    </ListView>
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        android:clipToPadding="false"
+        android:visibility="visible">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/todayText"
+            android:text="Mai teendők"
+            android:textSize="26dp"
+            android:textColor="#000"
+            android:textStyle="bold"/>
+        <com.example.david.todoapp.NoScrollListView
+            android:id="@+id/listView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/todayText">
+        </com.example.david.todoapp.NoScrollListView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tomorrowText"
+            android:text="Holnapi teendők"
+            android:textSize="26dp"
+            android:textColor="#000"
+            android:textStyle="bold"/>
+        <com.example.david.todoapp.NoScrollListView
+            android:id="@+id/listView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tomorrowText">
+        </com.example.david.todoapp.NoScrollListView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/laterText"
+            android:text="Máskor"
+            android:textSize="26dp"
+            android:textColor="#000"
+            android:textStyle="bold"/>
+
+        <com.example.david.todoapp.NoScrollListView
+            android:id="@+id/listView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/laterText"></com.example.david.todoapp.NoScrollListView>
+
+
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>
